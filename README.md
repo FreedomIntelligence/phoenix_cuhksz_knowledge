@@ -2,7 +2,7 @@
 
 # 🌟 Phoenix_CUHKSZ_Knowledge 🌟
 
-##  选择语言 / Language Selection  🌐
+##  语言 / Language 🌐
 <a href="https://github.com/FreedomIntelligence/phoenix_cuhksz_knowledge/tree/main/README.md">   中文</a> | <a href="https://github.com/FreedomIntelligence/phoenix_cuhksz_knowledge/tree/main/README_en.md">English 
 
 
