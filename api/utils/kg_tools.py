@@ -124,6 +124,7 @@ class PhoenixKownledgeWrapper:
         
         self.keywords_checker = DFADictChecker()
         self.tag_content_map = {}
+        self.tag_type = {}
         self.parse()
         
     def consist_group_taginfo(self,dir_path):
@@ -138,7 +139,7 @@ class PhoenixKownledgeWrapper:
             reduce_tag = tag.replace('keys:','')
             reduce_tag = reduce_tag.replace(',','|')[1:-1]
             reduce_tag = reduce_tag if '|' not in reduce_tag else '（' + reduce_tag + '）'
-            reduce_datas.append({'tag':reduce_tag,'info':info})
+            reduce_datas.append({'tag':reduce_tag,'info':info,'path':glb})
         
         return pd.DataFrame(reduce_datas)
 
@@ -160,6 +161,8 @@ class PhoenixKownledgeWrapper:
                     except_set_checker.add(all_tags[i])
                     
                     self.tag_content_map[all_tags[i]] = content
+          
+
             except:
                 except_set_checker.add(tag)
                 self.tag_content_map[tag] = content.replace('\\n','\n')
@@ -175,10 +178,24 @@ class PhoenixKownledgeWrapper:
         # self.parse_sheet(self.key_name,self.name_checker,True)  
     
 
+    
+    def get_tag_path(self,name):
+            wait_list = [self.key_refer,self.key_meta,self.key_build,self.key_landmark,self.key_subject,self.key_faculty,self.surprise,self.key_name,self.key_secinfo]
+            for type in wait_list:
+                if name in type['tag'].values:
+                    row_data = type[type['tag'] == name]
+                    return row_data['path'].iloc[0]
+                
+            return None
+
+
     def rel_knowledge_concat(self,question,checker):
         name_list = checker.filter_no_overlap(question)
         name_desc_info = ''
         names = []
+
+        tags_path = []
+
         for idx in range(len(name_list)):
             name_item = name_list[idx]
             is_isolate = is_isolated_word(question,name_item)
@@ -188,11 +205,22 @@ class PhoenixKownledgeWrapper:
             names.append(name)
             desc = self.tag_content_map[name]
             name_desc_info += (f"{idx+1}.{name}:{desc}\n")
-        return name_desc_info,','.join(names)
+
+        for name in names:
+            tag_path = self.get_tag_path(name)
+            if tag_path:
+                tags_path.append(tag_path)
+
+     
+
+        return name_desc_info,','.join(names), tags_path
 
 
+    
+    
+    
     def wrap_question(self,question):
-        content,keys = self.rel_knowledge_concat(question,self.keywords_checker)
+        content,keys,tags_path = self.rel_knowledge_concat(question,self.keywords_checker)
         
         if content:
 
@@ -200,7 +228,7 @@ class PhoenixKownledgeWrapper:
         else:
             reduce_question = question
         
-        return reduce_question
+        return reduce_question,tags_path
 
 
 PhoenixKownledgeWrapper()

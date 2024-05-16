@@ -40,6 +40,7 @@ from api.utils.request import (
 from utils.kg_tools import PhoenixKownledgeWrapper
 
 
+
 phoenix_kg_wrapper = PhoenixKownledgeWrapper()
 
 chat_router = APIRouter(prefix="/chat")
@@ -72,7 +73,7 @@ async def create_chat_completion(
 
     if not query_text.startswith('Use the following context as your learned knowledge, inside <context></context>'):
         logger.info('add RAG')
-        request.messages[-1]['content'] = phoenix_kg_wrapper.wrap_question(query_text)
+        request.messages[-1]['content'], TAG_PATH = phoenix_kg_wrapper.wrap_question(query_text)
     
 
     prompt = engine.apply_chat_template(
@@ -156,6 +157,8 @@ async def create_chat_completion(
         assert final_res is not None
         choices = []
         for output in final_res.outputs:
+            for p in TAG_PATH:
+                output.text = output.text + '\n' + p
             output.text = output.text.replace("�", "")
 
             finish_reason = output.finish_reason
@@ -242,6 +245,10 @@ async def create_chat_completion_stream(
             res: RequestOutput
             for output in res.outputs:
                 i = output.index
+
+                for p in TAG_PATH:
+                    output.text = output.text + '\n' + p
+                    
                 output.text = output.text.replace("�", "")
 
                 delta_text = output.text[len(previous_texts[i]):]
