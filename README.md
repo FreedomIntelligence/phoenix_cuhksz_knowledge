@@ -1,4 +1,4 @@
-<p align="center"> <img src="resources/xiaohui.png" style="width: 85%;" id="title-icon">       </p>
+<p align="center"> <img src="resources/xiaohui.png" style="width: 50%;" id="title-icon">       </p>
 
 # 🌟 Phoenix_CUHKSZ_Knowledge 🌟
 
@@ -40,4 +40,4 @@
 ### 📝 为知识库贡献内容
 亲爱的师生们，我们的知识库像是一部秘密日记，但现在它还略显空白，急需你们的‘八卦’填充！是时候挖掘一下你的脑袋瓜，分享那些只有你知道的校园秘密和宝贵智慧了。别让你的珍贵见解只在咖啡馆的小道消息中流传，让它们在我们的知识库里大放异彩，成为传世佳话！来吧，加入这场知识盛宴，把你的独家内幕和学术瑰宝一网打尽，共同创造出一个充满惊喜和智慧的CUHKSZ宝库！
 
-<p align="center"> <img src="resources/meiguonvren.png" style="width: 85%;" id="title-icon">       </p>
+<p align="left"> <img src="resources/meiguonvren.jpg" style="width: 30%;" id="end-icon">       </p>
